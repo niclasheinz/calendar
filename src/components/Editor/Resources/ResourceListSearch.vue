@@ -8,7 +8,8 @@
 		<NcButton @click="openRoomAvailability">
 			{{ t('calendar', 'Check rooms availability') }}
 		</NcButton>
-		<RoomAvailability v-if="showRoomAvailabilityModel" />
+		<RoomAvailability v-if="showRoomAvailabilityModel"
+			:calendar-object-instance="calendarObjectInstance" />
 		<NcSelect class="resource-search__multiselect"
 			:options="matches"
 			:searchable="true"
@@ -100,13 +101,15 @@ export default {
 			type: Array,
 			required: true,
 		},
-		calendarObjectInstance: {
-			type: Object,
-			required: true,
-		},
 	},
 	data() {
 		return {
+			calendarObjectInstance: {
+				startDate: new Date(),
+				endDate: new Date(),
+				organizer: {},
+				rooms: [],
+			},
 			isLoading: false,
 			inputGiven: false,
 			matches: [],
@@ -117,6 +120,7 @@ export default {
 			hasProjector: false,
 			hasWhiteboard: false,
 			showRoomAvailabilityModel: false,
+			rooms: [],
 		}
 	},
 	computed: {
