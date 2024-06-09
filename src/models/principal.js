@@ -1,8 +1,29 @@
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
+ * @copyright Copyright (c) 2019 Georg Ehrke
+ *
+ * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author 2024 Richard Steinmetz <richard@steinmetz.cloud>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
+import { AttendeeProperty } from '@nextcloud/calendar-js'
 import {
 	PRINCIPAL_PREFIX_CALENDAR_RESOURCE,
 	PRINCIPAL_PREFIX_CALENDAR_ROOM,
@@ -50,6 +71,16 @@ const getDefaultPrincipalObject = (props) => Object.assign({}, {
 	principalId: null,
 	// The url of the default calendar for invitations
 	scheduleDefaultCalendarUrl: null,
+
+	/**
+	 * Convert the principal to an AttendeeProperty
+	 *
+	 * @param {boolean} isOrganizer Should it be an attendee or an organizer?
+	 * @return {import('@nextcloud/calendar-js').AttendeeProperty}
+	 */
+	toAttendeeProperty(isOrganizer = false) {
+		return AttendeeProperty.fromNameAndEMail(this.displayname, this.emailAddress, isOrganizer)
+	},
 }, props)
 
 /**
