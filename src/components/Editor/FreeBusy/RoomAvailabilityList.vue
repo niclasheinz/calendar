@@ -5,6 +5,34 @@
 		@closing="handleClose">
 		<div class="modal__content__header">
 			<h2>{{ t('calendar', 'Find a room') }}</h2>
+			<table>
+				<tr>
+					<th class="name">
+						{{ t('calendar', 'Room name') }}
+					</th>
+					<th>&nbsp;</th>
+				</tr>
+				<tr v-for="room in rooms" :key="room.id">
+					<td>
+						<div class="item">
+							<div>
+								<div class="item-name">
+									{{ room.displayname }}
+								</div>
+							</div>
+						</div>
+					</td>
+					<td>
+						<div class="item-actions">
+							<NcButton type="secondary"
+								class="rooms__availability"
+								@click="openRoomAvailability">
+								{{ t('calendar', 'Check room availability') }}
+							</NcButton>
+						</div>
+					</td>
+				</tr>
+			</table>
 			<div>
 				<div v-for="room in rooms" :key="room.id" class="rooms">
 					<RoomIcon :size="20" />
@@ -30,7 +58,6 @@
 <script>
 import { NcButton, NcDialog } from '@nextcloud/vue'
 import RoomAvailabilityModal from './RoomAvailabilityModal.vue'
-import RoomIcon from 'vue-material-design-icons/MapMarker.vue'
 import { mapAttendeePropertyToAttendeeObject } from '../../../models/attendee.js'
 
 export default {
@@ -39,7 +66,6 @@ export default {
 		NcButton,
 		NcDialog,
 		RoomAvailabilityModal,
-		RoomIcon,
 	},
 	props: {
 		calendarObjectInstance: {
@@ -116,7 +142,8 @@ export default {
 			}
 		}
 	}
-	&__header{
+	&__header {
+		padding: 20px;
 		h3{
 			font-weight: 500;
 		}
@@ -159,10 +186,26 @@ export default {
 	opacity: 0.7 !important;
 }
 .rooms {
-	display: flex;
-	gap: 10px;
 		 &__availability {
 			 margin-bottom: 10px;
 		 }
+}
+h6 {
+	margin-top: 10px;
+}
+
+.item-name {
+	font-weight: bold;
+}
+
+.item-actions {
+	text-align: center;
+}
+
+.rooms__availability {
+	margin: 10px 0;
+}
+.name {
+	opacity: .8;
 }
 </style>
