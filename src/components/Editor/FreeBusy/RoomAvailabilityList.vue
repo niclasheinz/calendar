@@ -7,8 +7,10 @@
 			<h2>{{ t('calendar', 'Find a room') }}</h2>
 			<div>
 				<div v-for="room in rooms" :key="room.id" class="rooms">
-					<p>{{ room.displayname }}</p>
-					<NcButton @click="openRoomAvailability(room)">
+					<RoomIcon :size="20" />
+					{{ room.displayname }}
+					<NcButton class="rooms__availability"
+						@click="openRoomAvailability">
 						{{ t('calendar', 'Check room availability') }}
 					</NcButton>
 				</div>
@@ -28,6 +30,7 @@
 <script>
 import { NcButton, NcDialog } from '@nextcloud/vue'
 import RoomAvailabilityModal from './RoomAvailabilityModal.vue'
+import RoomIcon from 'vue-material-design-icons/MapMarker.vue'
 import { mapAttendeePropertyToAttendeeObject } from '../../../models/attendee.js'
 
 export default {
@@ -36,6 +39,7 @@ export default {
 		NcButton,
 		NcDialog,
 		RoomAvailabilityModal,
+		RoomIcon,
 	},
 	props: {
 		calendarObjectInstance: {
@@ -156,5 +160,9 @@ export default {
 }
 .rooms {
 	display: flex;
+	gap: 10px;
+		 &__availability {
+			 margin-bottom: 10px;
+		 }
 }
 </style>

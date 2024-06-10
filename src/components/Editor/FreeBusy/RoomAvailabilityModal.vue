@@ -79,8 +79,6 @@ import interactionPlugin from '@fullcalendar/interaction'
 import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
 import HelpCircleIcon from 'vue-material-design-icons/HelpCircle.vue'
-import { getCurrentUserPrincipal } from '../../../services/caldavService.js'
-import { AttendeeProperty } from '@nextcloud/calendar-js'
 import freeBusyBlockedForAllEventSource from '../../../fullcalendar/eventSources/freeBusyBlockedForAllEventSource.js'
 import freeBusyFakeBlockingEventSource from '../../../fullcalendar/eventSources/freeBusyFakeBlockingEventSource.js'
 import freeBusyResourceEventSource from '../../../fullcalendar/eventSources/freeBusyResourceEventSource.js'
@@ -102,7 +100,7 @@ export default {
 	props: {
 		show: {
 			type: Boolean,
-			required: true
+			required: true,
 		},
 		startDate: {
 			type: Date,
@@ -161,7 +159,7 @@ export default {
 		resources() {
 			const resources = []
 			for (const attendee of this.attendees) {
-				let title = attendee.commonName || attendee.uri.slice(7)
+				const title = attendee.commonName || attendee.uri.slice(7)
 				resources.push({
 					id: attendee.attendeeProperty.email,
 					title,

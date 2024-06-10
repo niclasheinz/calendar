@@ -5,11 +5,14 @@
 
 <template>
 	<div class="resource-search">
-		<NcButton @click="openRoomAvailability">
-			{{ t('calendar', 'Check rooms availability') }}
+		<NcButton class="button availability" @click="openRoomAvailability">
+			{{ t('calendar', 'Room availability') }}
 		</NcButton>
+
 		<RoomAvailabilityList v-if="showRoomAvailabilityModel"
-			:calendar-object-instance="calendarObjectInstance" />
+			:calendar-object-instance="calendarObjectInstance"
+			:start-date="calendarObjectInstance.startDate"
+			:end-date="calendarObjectInstance.endDate" />
 		<NcSelect class="resource-search__multiselect"
 			:options="matches"
 			:searchable="true"
@@ -252,3 +255,8 @@ export default {
 	},
 }
 </script>
+<style lang="scss" scoped>
+.button.availability {
+      margin-bottom: 8px;
+}
+</style>
