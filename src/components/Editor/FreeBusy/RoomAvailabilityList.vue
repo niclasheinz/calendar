@@ -10,7 +10,7 @@
 					<RoomIcon :size="20" />
 					{{ room.displayname }}
 					<NcButton class="rooms__availability"
-						@click="openRoomAvailability">
+						@click="openRoomAvailability(room)">
 						{{ t('calendar', 'Check room availability') }}
 					</NcButton>
 				</div>
