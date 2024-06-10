@@ -34,23 +34,15 @@
 				</tr>
 			</table>
 			<div>
-				<div v-for="room in rooms" :key="room.id" class="rooms">
-					<RoomIcon :size="20" />
-					{{ room.displayname }}
-					<NcButton class="rooms__availability"
-						@click="openRoomAvailability(room)">
-						{{ t('calendar', 'Check room availability') }}
-					</NcButton>
-				</div>
+				<RoomAvailabilityModal v-if="showRoomAvailabilityModal"
+					:show="showRoomAvailabilityModal"
+					:start-date="calendarObjectInstance.startDate"
+					:end-date="calendarObjectInstance.endDate"
+					:rooms="selectedRooms"
+					:calendar-object-instance="calendarObjectInstance"
+					:organizer="currentUserPrincipalAsAttendee"
+					@close="closeFreeBusy" />
 			</div>
-			<RoomAvailabilityModal v-if="showRoomAvailabilityModal"
-				:show="showRoomAvailabilityModal"
-				:start-date="calendarObjectInstance.startDate"
-				:end-date="calendarObjectInstance.endDate"
-				:rooms="selectedRooms"
-				:calendar-object-instance="calendarObjectInstance"
-				:organizer="currentUserPrincipalAsAttendee"
-				@close="closeFreeBusy" />
 		</div>
 	</NcDialog>
 </template>
