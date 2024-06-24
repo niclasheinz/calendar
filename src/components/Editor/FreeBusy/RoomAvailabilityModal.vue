@@ -3,15 +3,8 @@
 		:show="show"
 		:name="t('calendar', 'Check room availability')"
 		@close="$emit('close')">
-		<div class="modal__content modal--scheduler">
-			<div class="modal__content__header">
-				<h2>{{ $t('calendar', 'Find a time') }}</h2>
-				<NcUserBubble v-for="room in rooms"
-					:key="room.id"
-					size="24"
-					class="modal__content__header__rooms__user-bubble"
-					:display-name="room.commonName" />
-			</div>
+		<div class="modal__content__header">
+			<h2>{{ $t('calendar', 'Find a time') }}</h2>
 		</div>
 		<div class="modal__content__actions">
 			<div class="modal__content__actions__date">
