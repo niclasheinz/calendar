@@ -3,57 +3,59 @@
 		:show="show"
 		:name="t('calendar', 'Check room availability')"
 		@close="$emit('close')">
-		<div class="modal__content__header">
-			<h2>{{ $t('calendar', 'Find a time') }}</h2>
-		</div>
-		<div class="modal__content__actions">
-			<div class="modal__content__actions__date">
-				<NcButton type="secondary"
-					@click="handleActions('today')">
-					{{ $t('calendar', 'Today') }}
-				</NcButton>
-				<NcButton type="secondary"
-					@click="handleActions('left')">
-					<template #icon>
-						<ChevronLeftIcon :size="20" />
-					</template>
-				</NcButton>
-				<NcButton type="secondary"
-					@click="handleActions('right')">
-					<template #icon>
-						<ChevronRightIcon :size="20" />
-					</template>
-				</NcButton>
+		<div class="modal__content">
+			<div class="modal__content__header">
+				<h2>{{ $t('calendar', 'Find a time') }}</h2>
+			</div>
+			<div class="modal__content__actions">
+				<div class="modal__content__actions__date">
+					<NcButton type="secondary"
+						@click="handleActions('today')">
+						{{ $t('calendar', 'Today') }}
+					</NcButton>
+					<NcButton type="secondary"
+						@click="handleActions('left')">
+						<template #icon>
+							<ChevronLeftIcon :size="20" />
+						</template>
+					</NcButton>
+					<NcButton type="secondary"
+						@click="handleActions('right')">
+						<template #icon>
+							<ChevronRightIcon :size="20" />
+						</template>
+					</NcButton>
 
-				<NcDateTimePickerNative :hide-label="true"
-					:value="currentDate"
-					@input="(date)=>handleActions('picker', date)" />
-				<NcPopover :focus-trap="false">
-					<template #trigger>
-						<NcButton type="tertiary-no-background">
-							<template #icon>
-								<HelpCircleIcon :size="20" />
-							</template>
-						</NcButton>
-					</template>
-					<template>
-						<div class="freebusy-caption">
-							<div class="freebusy-caption__calendar-user-types" />
-							<div class="freebusy-caption__colors">
-								<div v-for="color in colorCaption" :key="color.color" class="freebusy-caption-item">
-									<div class="freebusy-caption-item__color" :style="{ 'background-color': color.color }" />
-									<div class="fregetebusy-caption-item__label">
-										{{ color.label }}
+					<NcDateTimePickerNative :hide-label="true"
+						:value="currentDate"
+						@input="(date)=>handleActions('picker', date)" />
+					<NcPopover :focus-trap="false">
+						<template #trigger>
+							<NcButton type="tertiary-no-background">
+								<template #icon>
+									<HelpCircleIcon :size="20" />
+								</template>
+							</NcButton>
+						</template>
+						<template>
+							<div class="freebusy-caption">
+								<div class="freebusy-caption__calendar-user-types" />
+								<div class="freebusy-caption__colors">
+									<div v-for="color in colorCaption" :key="color.color" class="freebusy-caption-item">
+										<div class="freebusy-caption-item__color" :style="{ 'background-color': color.color }" />
+										<div class="fregetebusy-caption-item__label">
+											{{ color.label }}
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-					</template>
-				</NcPopover>
+						</template>
+					</NcPopover>
+				</div>
 			</div>
+			<FullCalendar ref="freeBusyFullCalendar"
+				:options="options" />
 		</div>
-		<FullCalendar ref="freeBusyFullCalendar"
-			:options="options" />
 	</NcModal>
 </template>
 <script>
@@ -339,7 +341,7 @@ export default {
 	height: 100%;
 }
 .modal__content {
-	padding: 50px;
+	padding: 15px;
 	//when the calendar is open, it's cut at the bottom, adding a margin fixes it
 	margin-bottom: 95px;
 	&__actions{
