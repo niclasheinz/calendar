@@ -57,7 +57,7 @@
 	</NcModal>
 </template>
 <script>
-import { NcButton, NcDateTimePickerNative, NcModal, NcPopover, NcUserBubble } from '@nextcloud/vue'
+import { NcButton, NcDateTimePickerNative, NcModal, NcPopover } from '@nextcloud/vue'
 import { getFullCalendarLocale } from '../../../fullcalendar/localization/localeProvider.js'
 import FullCalendar from '@fullcalendar/vue'
 import { getDateFormattingConfig } from '../../../fullcalendar/localization/dateFormattingConfig.js'
@@ -80,7 +80,6 @@ import { mapAttendeePropertyToAttendeeObject } from '../../../models/attendee.js
 export default {
 	name: 'RoomAvailabilityModal',
 	components: {
-		NcUserBubble,
 		ChevronRightIcon,
 		ChevronLeftIcon,
 		HelpCircleIcon,
