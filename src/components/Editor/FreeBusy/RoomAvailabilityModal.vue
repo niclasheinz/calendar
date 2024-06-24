@@ -125,18 +125,11 @@ export default {
 	},
 	data() {
 		return {
-			showRoomAvailabilityModel: false,
-			loadingIndicator: true,
 			currentDate: this.startDate,
 			currentStart: this.startDate,
 			currentEnd: this.endDate,
 			lang: getFullCalendarLocale().locale,
-			formattingOptions: { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' },
 			freeSlots: [],
-			selectedSlot: null,
-			isSecondModalVisible: false,
-			selectedRoom: null,
-			showModal: false,
 		}
 	},
 	computed: {

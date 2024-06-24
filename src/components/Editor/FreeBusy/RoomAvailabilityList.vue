@@ -26,7 +26,7 @@
 						<div class="item-actions">
 							<NcButton type="secondary"
 								class="rooms__availability"
-								@click="openRoomAvailability">
+								@click="openRoomAvailability(room)">
 								{{ t('calendar', 'Check room availability') }}
 							</NcButton>
 						</div>
