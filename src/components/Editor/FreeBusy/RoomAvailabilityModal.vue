@@ -30,7 +30,8 @@
 						</template>
 					</NcButton>
 
-					<NcDateTimePickerNative :hide-label="true"
+					<NcDateTimePickerNative :id="datePickerInputId"
+						:hide-label="true"
 						:value="currentDate"
 						@input="(date)=>handleActions('picker', date)" />
 					<NcPopover :focus-trap="false">
@@ -70,7 +71,6 @@ import { getDateFormattingConfig } from '../../../fullcalendar/localization/date
 import { getBusySlots, getFirstFreeSlot } from '../../../services/freeBusySlotService.js'
 import dateFormat from '../../../filters/dateFormat.js'
 import { getColorForFBType } from '../../../utils/freebusy.js'
-import { mapGetters, mapState } from 'vuex'
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline'
 import momentPluginFactory from '../../../fullcalendar/localization/momentPlugin.js'
 import VTimezoneNamedTimezone from '../../../fullcalendar/timezones/vtimezoneNamedTimezoneImpl.js'
@@ -81,7 +81,10 @@ import HelpCircleIcon from 'vue-material-design-icons/HelpCircle.vue'
 import freeBusyBlockedForAllEventSource from '../../../fullcalendar/eventSources/freeBusyBlockedForAllEventSource.js'
 import freeBusyFakeBlockingEventSource from '../../../fullcalendar/eventSources/freeBusyFakeBlockingEventSource.js'
 import freeBusyResourceEventSource from '../../../fullcalendar/eventSources/freeBusyResourceEventSource.js'
-import { mapAttendeePropertyToAttendeeObject } from '../../../models/attendee.js'
+import { mapPrincipalObjectToAttendeeObject } from '../../../models/attendee.js'
+import { mapState } from 'pinia'
+import useSettingsStore from '../../../store/settings.js'
+import { randomId } from '../../../utils/randomId.js'
 
 export default {
 	name: 'RoomAvailabilityModal',
@@ -131,13 +134,8 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters({
+		...mapState(useSettingsStore, {
 			timezoneId: 'getResolvedTimezone',
-		}),
-		...mapState({
-			showWeekends: state => state.settings.showWeekends,
-			showWeekNumbers: state => state.settings.showWeekNumbers,
-			timezone: state => state.settings.timezone,
 		}),
 		/**
 		 * Map all given rooms to attendee properties.
@@ -145,7 +143,7 @@ export default {
 		 * @return {import('@nextcloud/calendar-js').AttendeeProperty[]}
 		 */
 		attendees() {
-			return this.rooms.map((room) => mapAttendeePropertyToAttendeeObject(room.toAttendeeProperty()))
+			return this.rooms.map((room) => mapPrincipalObjectToAttendeeObject(room))
 		},
 		resources() {
 			const resources = []
@@ -191,7 +189,7 @@ export default {
 		plugins() {
 			return [
 				resourceTimelinePlugin,
-				momentPluginFactory(this.$store),
+				momentPluginFactory(),
 				VTimezoneNamedTimezone,
 				interactionPlugin,
 			]
@@ -268,6 +266,12 @@ export default {
 				dateClick: this.findFreeSlots(),
 			}
 		},
+		/**
+		 * @return {string}
+		 */
+		datePickerInputId() {
+			return randomId()
+		},
 	},
 	methods: {
 		handleActions(action, date = null) {
@@ -312,8 +316,8 @@ export default {
 				const endSearchDate = new Date(startSearch)
 				endSearchDate.setDate(startSearch.getDate() + 7)
 				const eventResults = await getBusySlots(
-					this.organizer,
-					this.attendees,
+					this.organizer.attendeeProperty,
+					this.attendees.map((a) => a.attendeeProperty),
 					startSearch,
 					endSearchDate,
 					this.timeZoneId,

@@ -54,7 +54,9 @@
 <script>
 import { NcButton, NcDialog } from '@nextcloud/vue'
 import RoomAvailabilityModal from './RoomAvailabilityModal.vue'
-import { mapAttendeePropertyToAttendeeObject } from '../../../models/attendee.js'
+import { mapPrincipalObjectToAttendeeObject } from '../../../models/attendee.js'
+import { mapStores } from 'pinia'
+import usePrincipalsStore from '../../../store/principals.js'
 
 export default {
 	name: 'RoomAvailabilityList',
@@ -85,8 +87,9 @@ export default {
 		}
 	},
 	computed: {
+		...mapStores(usePrincipalsStore),
 		rooms() {
-			return this.$store.getters.getRoomPrincipals
+			return this.principalsStore.getRoomPrincipals
 		},
 		/**
 		 * Return the current user principal as a ORGANIZER attendee object.
@@ -94,8 +97,10 @@ export default {
 		 * @return {object}
 		 */
 		currentUserPrincipalAsAttendee() {
-			const attendee = this.$store.getters.getCurrentUserPrincipal.toAttendeeProperty(true)
-			return mapAttendeePropertyToAttendeeObject(attendee)
+			return mapPrincipalObjectToAttendeeObject(
+				this.principalsStore.getCurrentUserPrincipal,
+				true,
+			)
 		},
 	},
 	methods: {

@@ -99,10 +99,9 @@ export default defineStore('principals', {
 		/**
 		 * Fetches all principals of all rooms and resources from the DAV server and commits it to the state
 		 *
-		 * @param {object} context The vuex context
 		 * @return {Promise<void>}
 		 */
-		async fetchRoomAndResourcePrincipals(context) {
+		async fetchRoomAndResourcePrincipals() {
 			const options = {
 				enableCalDAVResourceBooking: true,
 			}
@@ -118,7 +117,7 @@ export default defineStore('principals', {
 
 				logger.debug('Fetched principals', { principals })
 				for (const principal of principals) {
-					context.commit('addPrincipal', {
+					this.addPrincipalMutation({
 						principal: mapDavToPrincipal(principal),
 					})
 				}
