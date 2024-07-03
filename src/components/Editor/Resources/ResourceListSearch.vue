@@ -103,15 +103,13 @@ export default {
 			type: Array,
 			required: true,
 		},
+		calendarObjectInstance: {
+			type: Object,
+			required: true,
+		},
 	},
 	data() {
 		return {
-			calendarObjectInstance: {
-				startDate: new Date(),
-				endDate: new Date(),
-				organizer: {},
-				rooms: [],
-			},
 			isLoading: false,
 			inputGiven: false,
 			matches: [],
